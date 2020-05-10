@@ -41,3 +41,6 @@ Route::get('/t', function() {
     // dd($tags);
 
 });
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

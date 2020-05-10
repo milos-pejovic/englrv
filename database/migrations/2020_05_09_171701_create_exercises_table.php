@@ -17,6 +17,7 @@ class CreateExercisesTable extends Migration
             $table->id();
             $table->string('title')->nullable();
             $table->integer('public_id')->unsigned();
+            $table->integer('author')->unsigned();
             $table->boolean('approved');
             $table->string('level')->nullable();
             $table->string('language');

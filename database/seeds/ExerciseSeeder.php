@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\Tag;
+use App\User;
 use App\Exercise;
 use Faker\Factory as Faker;
 
@@ -16,6 +17,7 @@ class ExerciseSeeder extends Seeder
     {
         $faker = Faker::create();
         $tags = Tag::pluck('id');
+        $usersObj = User::pluck('id');
         $levels = ['a1', 'a2', 'b1', 'b2', 'c1', 'c2'];
         $languages = ['english', 'german'];
         $tagsObj = Tag::all();
@@ -25,11 +27,16 @@ class ExerciseSeeder extends Seeder
             $tags[] = $tagObj;
         }
 
-        for ($i = 0; $i < 200; $i++) {
+        foreach($usersObj as $userObj) {
+            $users[] = $userObj;
+        }
+
+        for ($i = 0; $i < 400; $i++) {
             $exercise = Exercise::create([
                 'title' => $faker->word,
                 'level' => $levels[array_rand($levels)],
                 'public_id' => ($i + 100),
+                'author' => $users[array_rand($users)],
                 'approved' => rand(0, 1),
                 'language' => $languages[array_rand($languages)],
                 'json' => '{}'

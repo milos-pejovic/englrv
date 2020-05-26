@@ -23,7 +23,7 @@ class UserSeeder extends Seeder
             'role' => 'superadmin'
         ]);
 
-        for ($i = 0; $i < 3; $i++) {
+        for ($i = 0; $i < 5; $i++) {
             User::create([
                 'username' => $faker->userName,
                 'name' => $faker->name,
@@ -33,7 +33,7 @@ class UserSeeder extends Seeder
             ]);
         }
 
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 50; $i++) {
             User::create([
                 'username' => $faker->userName,
                 'name' => $faker->name,

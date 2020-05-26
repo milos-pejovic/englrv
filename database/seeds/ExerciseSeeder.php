@@ -36,7 +36,7 @@ class ExerciseSeeder extends Seeder
                 'title' => $faker->word,
                 'level' => $levels[array_rand($levels)],
                 'public_id' => ($i + 100),
-                'author' => $users[array_rand($users)],
+                'user_id' => $users[array_rand($users)],
                 'approved' => rand(0, 1),
                 'language' => $languages[array_rand($languages)],
                 'json' => '{}'

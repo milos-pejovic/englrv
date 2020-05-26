@@ -13,8 +13,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', 'HomeController@index');
+Route::post('/search-exercise', 'ExerciseController@search');
+
+Route::get('/e', 'ExerciseController@search');
+
+Route::get('/x', function() {
+    $e = App\Exercise::with('user')->first()->toArray();
+
+
+    dd($e);
 });
 
 

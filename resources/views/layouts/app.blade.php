@@ -21,6 +21,35 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <style>
+
+        .level-label-wrap {
+            display: inline-block; 
+            background: #ddd;
+            margin-right: 8px;
+            border-radius: 3px;
+        }
+        
+        .level-label-wrap:hover {
+            background-color: #a1cbef;
+        }
+
+        .selected-level {
+            background-color: #a1cbef;
+        }
+
+        .level-label-wrap input {
+            display: none;
+        }
+
+        .level-label {
+            cursor: pointer;
+            padding: 0 2px;
+        }
+
+    </style>
+
 </head>
 <body>
     <div id="app">

@@ -31,7 +31,7 @@ class ExerciseSeeder extends Seeder
             $users[] = $userObj;
         }
 
-        for ($i = 0; $i < 400; $i++) {
+        for ($i = 0; $i < 1200; $i++) {
             $exercise = Exercise::create([
                 'title' => $faker->word,
                 'level' => $levels[array_rand($levels)],

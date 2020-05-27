@@ -10,6 +10,11 @@
             {{ csrf_field() }}
 
             <div class="form-group">
+              <label for="exercise-author">Exercise title</label>
+              <input type="text" class="form-control" id="exercise-title" name="exercise_title" placeholder="Exercise title">
+            </div>
+
+            <div class="form-group">
               <label for="exercise-author">Exercise author</label>
               <input type="text" class="form-control" id="exercise-author" name="exercise_author" placeholder="Exercise author">
             </div>
@@ -19,44 +24,51 @@
               <input type="text" class="form-control" id="tags" name="tags" placeholder="tags">
             </div>
 
-            <div class="form-check">
+            <label>Levels</label>
 
-              <div class="level-label-wrap" style="display:inline-block; margin-right: 40px">
+            <div class="form-group">
+
+              <div class="level-label-wrap">
                 <label class="form-check-label level-label">
-                  <input type="checkbox" name="levels[]" class="form-check-input" id="a1" value="a1"><span>A1</span>
+                  <input type="checkbox" name="levels[]" class="form-check-input" id="a1" value="a1">
+                  <span class="level-label">A1</span>
                 </label>
               </div>
               
-              <div class="level-label-wrap" style="display:inline-block; margin-right: 40px">
+              <div class="level-label-wrap">
                 <label class="form-check-label level-label">
-                  <input type="checkbox" name="levels[]" class="form-check-input" id="a2" value="a2">A2
+                  <input type="checkbox" name="levels[]" class="form-check-input" id="a2" value="a2">
+                  <span class="level-label">A2</span>
                 </label>
               </div>
 
-              <div class="level-label-wrap" style="display:inline-block; margin-right: 40px">
+              <div class="level-label-wrap">
                 <label class="form-check-label level-label">
-                  <input type="checkbox" name="levels[]" class="form-check-input" id="b1" value="b1"><span>B1</span>
+                  <input type="checkbox" name="levels[]" class="form-check-input" id="b1" value="b1">
+                  <span class="level-label">B1</span>
                 </label>
               </div>
               
-              <div class="level-label-wrap" style="display:inline-block; margin-right: 40px">
+              <div class="level-label-wrap">
                 <label class="form-check-label level-label">
-                  <input type="checkbox" name="levels[]" class="form-check-input" id="b2" value="b2">B2
+                  <input type="checkbox" name="levels[]" class="form-check-input" id="b2" value="b2">
+                  <span class="level-label">B2</span>
                 </label>
               </div>
 
-              <div class="level-label-wrap" style="display:inline-block; margin-right: 40px">
+              <div class="level-label-wrap">
                 <label class="form-check-label level-label">
-                  <input type="checkbox" name="levels[]" class="form-check-input" id="c1" value="c1"><span>C1</span>
+                  <input type="checkbox" name="levels[]" class="form-check-input" id="c1" value="c1">
+                  <span class="level-label">C1</span>
                 </label>
               </div>
               
-              <div class="level-label-wrap" style="display:inline-block; margin-right: 40px">
+              <div class="level-label-wrap">
                 <label class="form-check-label level-label">
-                  <input type="checkbox" name="levels[]" class="form-check-input" id="c2" value="c2">C2
+                  <input type="checkbox" name="levels[]" class="form-check-input" id="c2" value="c2">
+                  <span class="level-label">B2</span>
                 </label>
               </div>
-
             </div>
 
             <button type="submit" class="btn btn-primary">Search</button>
@@ -100,11 +112,11 @@ $(function() {
  * ========================================================================================
  */
 var timer;
-$('.form-control').on('input', function() {
+$('.form-control, .form-check-input').on('input', function() {
   if (timer) {
     clearTimeout(timer);
   }
-  timer = setTimeout('searchForExercises()', 700);
+  timer = setTimeout('searchForExercises()', 500);
 });
 
 
@@ -167,6 +179,14 @@ function searchForExercises() {
 $('.exercise-search').on('submit', function(e) {
   e.preventDefault();
   searchForExercises();
+});
+
+$('.level-label-wrap').on('click', function() {
+  $(this).toggleClass('selected-level');
+});
+
+$('.level-label-wrap input').on('click', function(e){
+  e.stopPropagation();
 });
 
 </script>

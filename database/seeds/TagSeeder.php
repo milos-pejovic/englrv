@@ -15,7 +15,7 @@ class TagSeeder extends Seeder
         $tags = [
             'grammar', 
             'vocabulary', 
-            'article', 
+            'articles', 
             'indefinite', 
             'a/an', 
             'definite', 

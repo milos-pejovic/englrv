@@ -33,7 +33,7 @@ class ExerciseSeeder extends Seeder
 
         for ($i = 0; $i < 1200; $i++) {
             $exercise = Exercise::create([
-                'title' => $faker->word,
+                'title' => $faker->sentence,
                 'level' => $levels[array_rand($levels)],
                 'public_id' => ($i + 100),
                 'user_id' => $users[array_rand($users)],

@@ -15,8 +15,15 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'HomeController@index');
 Route::post('/search-exercise', 'ExerciseController@search');
+Route::get('/exercises/{public_id}', 'ExerciseController@single');
 
 Route::get('/e', 'ExerciseController@search');
+
+Route::get('/ex', function() {
+    $ex = App\Exercise::paginate(5);
+
+    return view('test')->with('ex', $ex);
+});
 
 Route::get('/x', function() {
     $e = App\Exercise::with('user')->first()->toArray();

@@ -21,6 +21,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
     <style>
 
@@ -48,8 +49,42 @@
             padding: 0 2px;
         }
 
-    </style>
+        .table-single-exercise {
+            border-top: 2px solid gray;
+            display: inline-block;
+            width: 100%;
+        }
 
+        .exercise-search .form-control {
+            background-color: #eee;
+        }
+
+        .single-exercase-result-template {
+            display: none;
+        }
+
+        .form-control {
+            color: #000;
+        }
+
+        .exercise-tag {
+            display: inline-block; 
+            background-color: lightgray; 
+            margin: 2px 4px 2px 0; 
+            padding: 0 6px;
+        }
+
+        .search-form-div {
+            margin-bottom: 10px;
+        }
+
+        .search-results-header {
+            padding: 5px 10px;
+            background: #454d55;
+            color: #fff;
+        }
+
+    </style>
 </head>
 <body>
     <div id="app">

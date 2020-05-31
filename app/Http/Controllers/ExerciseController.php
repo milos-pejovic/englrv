@@ -21,7 +21,6 @@ class ExerciseController extends Controller
 
         $query = Exercise::select(['id', 'title', 'public_id', 'language', 'level', 'user_id'])
             ->with(['tags', 'user']);
-            // ->where('exercises.id', '<', 100);
             
         if ($levels) {
             $query->whereIn('level', $levels);
@@ -49,8 +48,23 @@ class ExerciseController extends Controller
             $query->whereIn('level', $levels);
         }
 
-        $exercises = $query->get()->take(20)->toArray();
-        $exercises = json_encode($exercises);
-        echo $exercises;
+        // $exercises = $query->get()->take(20);
+
+        $exercises = $query->paginate(20);
+        $data['exercises'] = $exercises;
+        $links = (array)$exercises->links();
+        $links = array_values($links)[3]['elements'];
+        $data['links'] = $links;
+        
+        $data = json_encode($data);
+        echo $data;
+    }
+
+    /**
+     * 
+     */
+    public function single($public_id) {
+        $exercise = Exercise::where('public_id', $public_id)->get()[0];
+        return $exercise->title;
     }
 }

@@ -55,7 +55,6 @@ class ExerciseController extends Controller
         $links = (array)$exercises->links();
         $links = array_values($links)[3]['elements'];
         $data['links'] = $links;
-        
         $data = json_encode($data);
         echo $data;
     }
@@ -65,6 +64,6 @@ class ExerciseController extends Controller
      */
     public function single($public_id) {
         $exercise = Exercise::where('public_id', $public_id)->get()[0];
-        return $exercise->title;
+        return view('exercises/single')->with('exercise', $exercise);
     }
 }

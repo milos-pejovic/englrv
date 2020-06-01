@@ -12,17 +12,14 @@
             {{ csrf_field() }}
 
             <div class="form-group">
-              <!-- <label for="exercise-author">Exercise title</label> -->
               <input type="text" class="form-control" id="exercise-title" name="exercise_title" placeholder="Exercise title">
             </div>
 
             <div class="form-group">
-              <!-- <label for="exercise-author">Exercise author</label> -->
               <input type="text" class="form-control" id="exercise-author" name="exercise_author" placeholder="Exercise author">
             </div>
 
             <div class="form-group">
-              <!-- <label for="tags">Tags</label> -->
               <input type="text" class="form-control" id="tags" name="tags" placeholder="Tags (tag1, tag2, ...)">
             </div>
 
@@ -72,7 +69,7 @@
                 </label>
               </div>
 
-              <input type="hidden" name="page" value="10" />
+              <input type="hidden" name="page" class="page" value="1" />
             </div>
 
             <button type="submit" class="btn btn-primary">Search</button>
@@ -131,14 +128,12 @@ $('.form-control, .form-check-input').on('input', function() {
   timer = setTimeout('searchForExercises()', 500);
 });
 
-
 /**
  * ======================================================================================== 
  * Render found exercises
  * ========================================================================================
  */
 function renderExercises(exercises) {
-  // var exercises = JSON.parse(exercises);
   var exercisesWrap = $('.exercise-results');
   var newHtml = '';
 
@@ -149,7 +144,7 @@ function renderExercises(exercises) {
     newHtml += '<tr>';
     newHtml += '<th>' + (i + 1) + '</th>';
  
-    newHtml += '<td width="25%"><p><a href="/exercises/' + exercises[i].public_id + '"><b>' + exercises[i].title + '</b></a></p></td>';
+    newHtml += '<td width="25%"><p><a href="/exercises/' + exercises[i].public_id + '" target="_blank"><b>' + exercises[i].title + '</b></a></p></td>';
     newHtml += '<td>' + exercises[i].level + '</td>';
     newHtml += '<td>' + capitalize(exercises[i].language) + '</td>';
     newHtml += '<td>' + exercises[i].user.username + '</td>';
@@ -207,12 +202,11 @@ function searchForExercises() {
 function renderResults(rawData) {
   var data = JSON.parse(rawData);
 
-  console.log(data.exercises);
-
   renderExercises(data.exercises.data);
   renderPagination(
     data.links,
-    data.exercises.current_page
+    data.exercises.current_page,
+    data.exercises.last_page,
   );
 }
 
@@ -221,7 +215,7 @@ function renderResults(rawData) {
  * Render pagination
  * ========================================================================================
  */
-function renderPagination(paginationLinksData, current_page) {
+function renderPagination(paginationLinksData, current_page, last_page) {
 
   console.log(paginationLinksData);
 
@@ -229,26 +223,22 @@ function renderPagination(paginationLinksData, current_page) {
   var paginationHtml = '';
   paginationHtml += '<nav aria-label="...">';
   paginationHtml += '<ul class="pagination">';
-  paginationHtml += '<li class="page-item"><a class="page-link" href="#" rel="prev" aria-label="« Previous">‹</a></li>';
+  paginationHtml += '<li class="page-item ' + (current_page == 1 ? 'disabled' : '') + '"><a class="page-link" href="#" data-page-number="' + (current_page - 1) + '" rel="prev" aria-label="« Previous">Previous</a></li>';
 
   var rawDataLength = paginationLinksData.length;
 
   for(var i = 0; i < rawDataLength; i++) {
-
     if (paginationLinksData[i].constructor === Object) {
       for (let key in paginationLinksData[i]) {
-        
 
-        paginationHtml += '<li class="page-item ' + (key == current_page ? 'active' : '') + '"><a class="page-link" href="#">' + key + '</a></li>';
+        paginationHtml += '<li class="page-item ' + (key == current_page ? 'active' : '') + '"><a class="page-link" data-page-number="' + key + '" href="#">' + key + '</a></li>';
       }
     } else if (paginationLinksData[i].constructor === String && paginationLinksData[i] == '...') {
       paginationHtml += '<li class="page-item disabled" aria-disabled="true"><span class="page-link">...</span></li>';
     }
   }
 
-  // paginationHtml += '<li class="page-item"><a class="page-link" href="#">1</a></li>';
-
-  paginationHtml += '<li class="page-item"><a class="page-link" href=#" rel="next" aria-label="Next »">›</a></li>';
+  paginationHtml += '<li class="page-item ' + (current_page == last_page ? 'disabled' : '') + '"><a class="page-link" href="#" rel="next" data-page-number="' + (current_page + 1) + '" aria-label="Next »">Next</a></li>';
   paginationHtml += '</ul>';
   paginationHtml += '</nav>';
   
@@ -263,6 +253,12 @@ function renderPagination(paginationLinksData, current_page) {
 function capitalize(string) {
   return string[0].toUpperCase() + string.slice(1);
 }
+
+$( "body" ).delegate(".page-link", "click", function(e) {
+  e.preventDefault();
+  $('.exercise-search .page').val($(this).data('page-number'));
+  searchForExercises();
+});
 
 $('.exercise-search').on('submit', function(e) {
   e.preventDefault();

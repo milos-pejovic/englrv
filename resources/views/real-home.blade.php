@@ -69,26 +69,71 @@
                 </label>
               </div>
 
+            </div>
+            <div class="form-group result-formating-controls">
+
+              <div class="row">
+
+                <div class="form-group col-4">
+                  <label for="exampleFormControlSelect1">Results per page</label>
+                  <select class="form-control" id="results_per_page" name="results_per_page" class="results_per_page">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20" selected="selected">20</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                  </select>
+                </div>
+
+                <div class="form-group col-4">
+                  <label for="exampleFormControlSelect1">Sort by column</label>
+                  <select class="form-control" id="order_by" name="order_by" class="order_by">
+                    <option value="id">Id</option>
+                    <option value="title" selected="selected">Title</option>
+                    <option value="level">Level</option>
+                    <option value="author">Author</option>
+                  </select>
+                </div>
+
+                <div class="form-group col-4">
+                  <label for="exampleFormControlSelect1">Sorting direction</label>
+                  <select class="form-control" id="sorting_direction" name="sorting_direction" class="sorting_direction">
+                    <option value="ASC" selected="selected">Ascending</option>
+                    <option value="DESC">Descending</option>
+                  </select>
+                </div>
+
+              </div><!-- Row end -->
+
               <input type="hidden" name="page" class="page" value="1" />
             </div>
 
-            <button type="submit" class="btn btn-primary">Search</button>
+              <button type="submit" class="btn btn-primary search-button">Search</button>
+
+              <div class="spinner-wrap">
+                <img class="spinner" src="/images/spinner8.gif" />
+                <p class="searching-for-exercises">Searching for exercises...</p>
+              </div>
+              
+
           </form>
 
           </div>
           <div class="col-sm-12 col-md-12 col-lg-12 col-xl-10">
 
-          <h2 class="search-results-header">Search results</h2>
+          <h2 class="search-results-header">Search results: <span class="number-of-results">0</span></h2>
 
           <div class="pagination-wrapper"></div>
 
           <table class="table table-sm table-hover exercises-search-results">
             <thead class="thead-light">
               <tr>
-                <th scope="col" style="border-bottom: none;">#</th>
+                <!-- <th scope="col" style="border-bottom: none;">#</th> -->
+                <th scope="col" style="border-bottom: none;">Id</th>
                 <th scope="col" style="border-bottom: none;">Title</th>
+                <!-- <th scope="col" style="border-bottom: none;">Id</th> -->
                 <th scope="col" style="border-bottom: none;">Level</th>
-                <th scope="col" style="border-bottom: none;">Language</th>
+                <!-- <th scope="col" style="border-bottom: none;">Language</th> -->
                 <th scope="col" style="border-bottom: none;">Author</th>
                 <th scope="col" class="d-none d-md-block no-bottom-border" style="border-bottom: none;">Tags</th>
               </tr>
@@ -125,7 +170,7 @@ $('.form-control, .form-check-input').on('input', function() {
   if (timer) {
     clearTimeout(timer);
   }
-  timer = setTimeout('searchForExercises()', 500);
+  timer = setTimeout('searchForExercises("form")', 1200);
 });
 
 /**
@@ -142,12 +187,14 @@ function renderExercises(exercises) {
 
   for (var i = 0; i < numberOfExercises; i++) {
     newHtml += '<tr>';
-    newHtml += '<th>' + (i + 1) + '</th>';
+    // newHtml += '<th>' + (i + 1) + '</th>';
+    newHtml += '<td>' + exercises[i].public_id + '</td>';
  
     newHtml += '<td width="25%"><p><a href="/exercises/' + exercises[i].public_id + '" target="_blank"><b>' + exercises[i].title + '</b></a></p></td>';
     newHtml += '<td>' + exercises[i].level + '</td>';
-    newHtml += '<td>' + capitalize(exercises[i].language) + '</td>';
-    newHtml += '<td>' + exercises[i].user.username + '</td>';
+    // newHtml += '<td>' + capitalize(exercises[i].language) + '</td>';
+    // newHtml += '<td>' + exercises[i].user.username + '</td>';
+    newHtml += '<td>' + exercises[i].author + '</td>';
     newHtml += '<td class="d-none d-md-block">';
     var numberOfTags = exercises[i].tags.length;
     for (var j = 0; j < numberOfTags; j++) {
@@ -178,14 +225,23 @@ function renderExercises(exercises) {
  * Call ajax for exercise search
  * ========================================================================================
  */
-function searchForExercises() {
+function searchForExercises(source) {
+
+  if (source == 'form') {
+    $('.exercise-search .page').val('1');
+  }
+
   console.log('Before ajax');
+
+  $('.spinner-wrap').css('display', 'inline-block');
+
   $.ajax({
     type: 'POST',
     url: '/search-exercise',
     data: $('.exercise-search').serialize(),
     success: function (result) {
       console.warn('SUCCESS');
+      $('.spinner-wrap').hide();
       renderResults(result);
     },
     error: function() {
@@ -201,6 +257,10 @@ function searchForExercises() {
  */
 function renderResults(rawData) {
   var data = JSON.parse(rawData);
+
+  console.log(data);
+
+  $('.number-of-results').text(data.exercises.total);
 
   renderExercises(data.exercises.data);
   renderPagination(
@@ -223,22 +283,41 @@ function renderPagination(paginationLinksData, current_page, last_page) {
   var paginationHtml = '';
   paginationHtml += '<nav aria-label="...">';
   paginationHtml += '<ul class="pagination">';
-  paginationHtml += '<li class="page-item ' + (current_page == 1 ? 'disabled' : '') + '"><a class="page-link" href="#" data-page-number="' + (current_page - 1) + '" rel="prev" aria-label="« Previous">Previous</a></li>';
+  paginationHtml += '<li class="page-item ' + (current_page == 1 ? 'disabled' : '') + '"><a class="page-link" href="#" data-page-number="' + (current_page - 1) + '" rel="prev" aria-label="« Previous"><</a></li>';
 
-  var rawDataLength = paginationLinksData.length;
+  // If Pagination Links Data is an Array
 
-  for(var i = 0; i < rawDataLength; i++) {
-    if (paginationLinksData[i].constructor === Object) {
-      for (let key in paginationLinksData[i]) {
+  if (paginationLinksData.constructor === Array) {
+    var rawDataLength = paginationLinksData.length;
 
-        paginationHtml += '<li class="page-item ' + (key == current_page ? 'active' : '') + '"><a class="page-link" data-page-number="' + key + '" href="#">' + key + '</a></li>';
+    for(var i = 0; i < rawDataLength; i++) {
+      if (paginationLinksData[i].constructor === Object) {
+        for (let key in paginationLinksData[i]) {
+
+          paginationHtml += '<li class="page-item ' + (key == current_page ? 'active' : '') + '"><a class="page-link" data-page-number="' + key + '" href="#">' + key + '</a></li>';
+        }
+      } else if (paginationLinksData[i].constructor === String && paginationLinksData[i] == '...') {
+        paginationHtml += '<li class="page-item disabled" aria-disabled="true"><span class="page-link">...</span></li>';
       }
-    } else if (paginationLinksData[i].constructor === String && paginationLinksData[i] == '...') {
-      paginationHtml += '<li class="page-item disabled" aria-disabled="true"><span class="page-link">...</span></li>';
+    }
+
+  } else if (paginationLinksData.constructor === Object) {
+
+    // If Pagination Links Data is an Object
+
+    for (let linksKey in paginationLinksData) { 
+      if (paginationLinksData[linksKey].constructor === Object) {
+        for (let key in paginationLinksData[linksKey]) {
+
+          paginationHtml += '<li class="page-item ' + (key == current_page ? 'active' : '') + '"><a class="page-link" data-page-number="' + key + '" href="#">' + key + '</a></li>';
+        }
+      } else if (paginationLinksData[linksKey].constructor === String && paginationLinksData[linksKey] == '...') {
+        paginationHtml += '<li class="page-item disabled" aria-disabled="true"><span class="page-link">...</span></li>';
+      }
     }
   }
 
-  paginationHtml += '<li class="page-item ' + (current_page == last_page ? 'disabled' : '') + '"><a class="page-link" href="#" rel="next" data-page-number="' + (current_page + 1) + '" aria-label="Next »">Next</a></li>';
+  paginationHtml += '<li class="page-item ' + (current_page == last_page ? 'disabled' : '') + '"><a class="page-link" href="#" rel="next" data-page-number="' + (current_page + 1) + '" aria-label="Next »">></a></li>';
   paginationHtml += '</ul>';
   paginationHtml += '</nav>';
   
@@ -262,6 +341,7 @@ $( "body" ).delegate(".page-link", "click", function(e) {
 
 $('.exercise-search').on('submit', function(e) {
   e.preventDefault();
+  $('.exercise-search .page').val('1');
   searchForExercises();
 });
 
@@ -269,8 +349,16 @@ $('.level-label-wrap').on('click', function() {
   $(this).toggleClass('selected-level');
 });
 
+// TODO: Is this needed? 
 $('.level-label-wrap input').on('click', function(e){
   e.stopPropagation();
+});
+
+// Trim the value of these fields
+
+$('#tags, #exercise-title, #exercise-author').on('input', function() {
+  var value = $(this).val();
+  $(this).val(value.trim());
 });
 
 </script>

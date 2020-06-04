@@ -84,6 +84,31 @@
             color: #fff;
         }
 
+        .spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+        }
+
+        .searching-for-exercises {
+            display: inline-block;
+            font-size: 15px;
+            color: #2176bd;
+        }
+
+        .spinner-wrap {
+            display: none;
+        }
+
+        .exercise-search .search-button {
+            margin: 8px 0;
+        }
+
+        .result-formating-controls {
+            margin-top: 10px;
+            margin-bottom: 0;
+        }
+
     </style>
 </head>
 <body>

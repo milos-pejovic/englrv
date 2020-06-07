@@ -37,9 +37,46 @@ class ExerciseSeeder extends Seeder
                 'level' => $levels[array_rand($levels)],
                 'public_id' => ($i + 100),
                 'user_id' => $users[array_rand($users)],
-                'approved' => rand(0, 1),
+                'active' => rand(0, 1),
                 'language' => $languages[array_rand($languages)],
-                'json' => '{}'
+                'json' => '{
+                    "segments" : [
+                        {
+                            "type" : "hero-image",
+                            "image-name" : "Image-name.jpg" 
+                        },
+                        {
+                            "type" : "text",
+                            "text" : "Lorem ipsum"
+                        },
+                        {
+                            "type" : "text-questions",
+                            "questions" : [
+                            
+                                {
+                                    "text" : "I once met ###1### man. ###2### man had a car.",
+                                    "image" : {},
+                                    "example" : true,
+                                    "answers" : {
+                                        "1" : ["a", "one"],
+                                        "2" : ["the", "this"]
+                                    }
+                                },
+                                
+                                {
+                                    "text" : "I once met ###1### man. ###2### man had a car.",
+                                    "image" : {},
+                                    "example" : true,
+                                    "answers" : {
+                                        "1" : ["a", "one"],
+                                        "2" : ["the", "this"]
+                                    }
+                                }
+                                
+                            ]
+                        }
+                    ]
+                }'
             ]);
 
             $numberOfTags = rand(1, 7);

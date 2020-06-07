@@ -18,7 +18,7 @@ class CreateExercisesTable extends Migration
             $table->string('title')->nullable();
             $table->integer('public_id')->unsigned();
             $table->integer('user_id')->unsigned();
-            $table->boolean('approved');
+            $table->boolean('active');
             $table->string('level')->nullable();
             $table->string('language');
             $table->longText('json')->nullable();

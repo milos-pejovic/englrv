@@ -190,7 +190,7 @@ function renderExercises(exercises) {
     // newHtml += '<th>' + (i + 1) + '</th>';
     newHtml += '<td>' + exercises[i].public_id + '</td>';
  
-    newHtml += '<td width="25%"><p><a href="/exercises/' + exercises[i].public_id + '" target="_blank"><b>' + exercises[i].title + '</b></a></p></td>';
+    newHtml += '<td width="25%"><p><a href="/ex/' + exercises[i].public_id + '" target="_blank"><b>' + exercises[i].title + '</b></a></p></td>';
     newHtml += '<td>' + exercises[i].level + '</td>';
     // newHtml += '<td>' + capitalize(exercises[i].language) + '</td>';
     // newHtml += '<td>' + exercises[i].user.username + '</td>';

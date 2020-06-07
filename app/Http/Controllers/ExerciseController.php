@@ -30,7 +30,6 @@ class ExerciseController extends Controller
             echo 'Invalid form data';
             return false;
         }
-
         
         $title = $request->exercise_title;
         $author = $request->exercise_author;
@@ -54,6 +53,7 @@ class ExerciseController extends Controller
                 'users.username as author'
             ])
             ->join('users', 'exercises.user_id', '=', 'users.id')
+            ->where('active', '1')
             ->with(['tags']);
   
         if ($levels) {
@@ -101,7 +101,9 @@ class ExerciseController extends Controller
      * 
      */
     public function single($public_id) {
-        $exercise = Exercise::where('public_id', $public_id)->get()[0];
+        $exercise = Exercise::where('public_id', $public_id)
+            ->with('user')
+            ->get()[0];
         return view('exercises/single')->with('exercise', $exercise);
     }
 }

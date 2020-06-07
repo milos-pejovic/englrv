@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'HomeController@index');
 Route::post('/search-exercise', 'ExerciseController@search');
-Route::get('/exercises/{public_id}', 'ExerciseController@single');
+Route::get('/ex/{public_id}', 'ExerciseController@single');
 
 Route::get('/e', 'ExerciseController@search');
 

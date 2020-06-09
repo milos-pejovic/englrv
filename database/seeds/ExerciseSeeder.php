@@ -33,7 +33,8 @@ class ExerciseSeeder extends Seeder
 
         for ($i = 0; $i < 1200; $i++) {
             $exercise = Exercise::create([
-                'title' => $faker->sentence,
+                // 'title' => $faker->sentence,
+                'title' => 'Indefinite articles',
                 'level' => $levels[array_rand($levels)],
                 'public_id' => ($i + 100),
                 'user_id' => $users[array_rand($users)],
@@ -47,7 +48,7 @@ class ExerciseSeeder extends Seeder
                         },
                         {
                             "type" : "text",
-                            "text" : "Lorem ipsum"
+                            "text" : "Write <b>a</b> or <b>an</b> on the lines as needed."
                         },
                         {
                             "type" : "text-questions",
@@ -66,7 +67,7 @@ class ExerciseSeeder extends Seeder
                                 {
                                     "text" : "I once met ###1### man. ###2### man had a car.",
                                     "image" : {},
-                                    "example" : true,
+                                    "example" : false,
                                     "answers" : {
                                         "1" : ["a", "one"],
                                         "2" : ["the", "this"]

@@ -17,6 +17,8 @@
       <p>Level: {{ $exercise->level }}</p>
       <p>Author: {{ $exercise->user->username }}</p>
 
+      <hr />
+
       <div class="exercise-data-wrapper">
 
       </div>

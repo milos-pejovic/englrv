@@ -1,0 +1,15 @@
+.exercise-hero-image {
+  width: 200px;
+}
+
+.exercise-text-question-input-field {
+  border: none;
+  border-bottom: 1px solid #000;
+  line-height: 18px;
+  text-align: center;
+  width: 50px;
+}
+
+.exercise-text-question-input-field:focus {
+  border-bottom: 1px solid blue;
+}

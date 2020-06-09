@@ -110,6 +110,9 @@
         }
 
     </style>
+
+    <link rel="stylesheet" href="/css/exercise.css">
+
 </head>
 <body>
     <div id="app">

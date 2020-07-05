@@ -19,42 +19,33 @@ Route::get('/ex/{public_id}', 'ExerciseController@single');
 
 Route::get('/e', 'ExerciseController@search');
 
-Route::get('/ex', function() {
-    $ex = App\Exercise::paginate(5);
+// Route::get('/ex', function() {
+//     $ex = App\Exercise::paginate(5);
 
-    return view('test')->with('ex', $ex);
-});
+//     return view('test')->with('ex', $ex);
+// });
 
-Route::get('/x', function() {
-    $e = App\Exercise::with('user')->first()->toArray();
+// Route::get('/x', function() {
+//     $e = App\Exercise::with('user')->first()->toArray();
 
 
-    dd($e);
-});
+//     dd($e);
+// });
 
 
 Route::get('/t', function() {
-    $es = App\Exercise::all();
+    // $location = '../database/seeds/exercises/';
+    // $contents = scandir($location);
 
-    foreach($es as $e) {
-        echo '<h1>'.$e->title.'</h1>';
-        echo '<p>Language: ' . $e->language . '</p>';
+    // foreach($contents as $file) {
+    //     if ($file == '.' || $file == '..'){
+    //         continue;
+    //     }
 
-        foreach($e->tags as $tag) {
-            echo '<span style="background-color: lightgray; display: inline-block; margin: 5px; padding: 3px 6px"> ' . $tag->name . ' </span>';
-        }
-        echo '<hr />';
-    }
-
-    // $tagsObj = App\Tag::all();
-    // $tags = [];
-
-    // foreach($tagsObj as $tagObj) {
-    //     $tags[] = $tagObj;
+    //     $ex[] = file_get_contents($location . $file);
     // }
 
-    // dd($tags);
-
+    // echo($ex[0]);
 });
 Auth::routes();
 

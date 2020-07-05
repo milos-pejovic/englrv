@@ -97,6 +97,8 @@ class ExerciseController extends Controller
         return false;
     }
 
+    
+
     /**
      * 
      */

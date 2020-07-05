@@ -1,0 +1,53 @@
+{
+	"segments": [
+    {
+			"type": "hero-image",
+			"image-name": "Image-name.jpg"
+		},
+		{
+			"type": "given-words",
+			"words": ["chair", "armchair", "sofa", "table", "closet", "shelves", "desk", "curtains"]
+		},
+		{
+			"type": "text",
+			"text": "Lorem ipsum ex 2"
+		},
+		{
+			"type": "text-questions",
+			"questions": [
+
+				{
+					"text": "I once met ###1### man. ###2### man had a car.",
+					"image": {},
+					"example": true,
+					"answers": {
+						"1": ["a", "one"],
+						"2": ["the", "this"]
+					}
+				},
+
+				{
+					"text": "###1### dog, ###2### cat and ###3### mouse walk into a bar.",
+					"image": {},
+					"example": false,
+					"answers": {
+						"1": ["a"],
+						"2": ["a"],
+						"3": ["a"]
+					}
+				},
+
+				{
+					"text": "I once met ###1### man. ###2### man had a car.",
+					"image": {},
+					"example": false,
+					"answers": {
+						"1": ["a", "one"],
+						"2": ["the", "this"]
+					}
+        }
+        
+			]
+		}
+	]
+}

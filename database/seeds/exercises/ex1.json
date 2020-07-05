@@ -1,0 +1,57 @@
+{
+	"segments": [
+		{
+			"type": "text",
+			"text": "Write a/an, the or nothing."
+		},
+		{
+			"type": "text-questions",
+			"questions": [
+
+				{
+					"text": "I once met ###1### man. ###2### man had a car.",
+					"image": {},
+					"example": true,
+					"answers": {
+						"1": ["a"],
+						"2": ["the"]
+					}
+				},
+
+				{
+					"text": "I am ###1### bank clerk. I work in ###2### office.",
+					"image": {},
+					"example": false,
+					"answers": {
+						"1": ["a"],
+						"2": ["an"]
+					}
+				},
+
+				{
+					"text": "###1### apple, ###2### orange and ###3### banana walk into a bar.",
+					"image": {},
+					"example": false,
+					"answers": {
+						"1": ["an"],
+						"2": ["an"],
+						"3": ["a"]
+					}
+				},
+				
+				{
+					"text": "",
+					"image": {},
+					"example": false,
+					"answers": {
+						"1": ["an"],
+						"2": ["an"],
+						"3": ["a"]
+					}
+				}
+
+        
+			]
+		}
+	]
+}

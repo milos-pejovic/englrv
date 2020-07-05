@@ -31,53 +31,24 @@ class ExerciseSeeder extends Seeder
             $users[] = $userObj;
         }
 
+        $exercisesJson = $this->getExJson();
+
+        $k = 0;
         for ($i = 0; $i < 1200; $i++) {
+
+            if ($k == count($exercisesJson)){
+                $k = 0;
+            }
+
             $exercise = Exercise::create([
                 // 'title' => $faker->sentence,
-                'title' => 'Indefinite articles',
+                'title' => 'Exercise ' . $k,
                 'level' => $levels[array_rand($levels)],
                 'public_id' => ($i + 100),
                 'user_id' => $users[array_rand($users)],
                 'active' => rand(0, 1),
                 'language' => $languages[array_rand($languages)],
-                'json' => '{
-                    "segments" : [
-                        {
-                            "type" : "hero-image",
-                            "image-name" : "Image-name.jpg" 
-                        },
-                        {
-                            "type" : "text",
-                            "text" : "Write <b>a</b> or <b>an</b> on the lines as needed."
-                        },
-                        {
-                            "type" : "text-questions",
-                            "questions" : [
-                            
-                                {
-                                    "text" : "I once met ###1### man. ###2### man had a car.",
-                                    "image" : {},
-                                    "example" : true,
-                                    "answers" : {
-                                        "1" : ["a", "one"],
-                                        "2" : ["the", "this"]
-                                    }
-                                },
-                                
-                                {
-                                    "text" : "I once met ###1### man. ###2### man had a car.",
-                                    "image" : {},
-                                    "example" : false,
-                                    "answers" : {
-                                        "1" : ["a", "one"],
-                                        "2" : ["the", "this"]
-                                    }
-                                }
-                                
-                            ]
-                        }
-                    ]
-                }'
+                'json' => $exercisesJson[$k++]
             ]);
 
             $numberOfTags = rand(1, 7);
@@ -93,5 +64,23 @@ class ExerciseSeeder extends Seeder
 
             $exercise->tags()->saveMany($exerciseTags);
         }
+    }
+
+    /**
+     * 
+     */
+    private function getExJson() {
+        $location = getcwd() . '/database/seeds/exercises';
+        $contents = scandir($location);
+        $exJson = [];
+
+        foreach($contents as $file) {
+            if ($file == '.' || $file == '..'){
+                continue;
+            }
+            $exJson[] = file_get_contents($location . '/' . $file);
+        }
+
+        return $exJson;
     }
 }
